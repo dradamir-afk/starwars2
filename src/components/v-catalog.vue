@@ -3,9 +3,10 @@
         <h1>Catalog</h1>
         <div class="v-catalog-list">
             <v-catalog-item
-                v-for="people in peoples"
+                v-for="people in this.$store.state.people"
                 :key="people.name"
                 :people_data="people"
+                @sendName = "showChildNameInConsole"
             />
         </div>
     </div>
@@ -13,6 +14,8 @@
 
 <script>
 import vCatalogItem from '../components/v-catalog-item.vue'
+import {mapActions} from 'vuex'
+
     export default {
         name: "v-catalog",
         components:{
@@ -20,7 +23,7 @@ import vCatalogItem from '../components/v-catalog-item.vue'
         },
         data(){
             return{
-                peoples: [
+                people: [
                     {
                         image: "1.jpg",
                         name: "Darth Vader",
@@ -53,6 +56,15 @@ import vCatalogItem from '../components/v-catalog-item.vue'
                 }
             },
         methods:{
+            ...mapActions([
+                'GET_PEOPLE_FROM_API'
+            ]),
+            showChildNameInConsole(data){
+                console.log(data);
+            },
+            mounted(){
+                this.GET_PEOPLE_FROM_API();
+            }
 
         },
         props:{
